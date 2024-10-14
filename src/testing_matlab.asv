@@ -12,13 +12,6 @@ disp(kb);
 Na = 6.022E23; % Avogadro's number (-)
 disp(Na);
 
-% Let's test logical operators...
-isequal(Na,Na)
+% Let's 
 
-isequal(Na,Na-kb) % surprise... MATLAB uses a finite number of digits to represent numbers
-Na + kb
 
-%% what are the limits
-realmax % largest number considered by matlab
-
-realmin % smallest number considered by matlab
