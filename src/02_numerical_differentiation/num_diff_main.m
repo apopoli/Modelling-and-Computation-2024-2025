@@ -48,6 +48,36 @@ disp(T)
 % truncation error -> truncation in Taylor series
 
 %% Plot of the error
+h = logspace(-16,-1,1E2);
 
+% define a relative error function
+err = @(x,h,fun) abs((df_dx_e(x)-fun(x,h))/df_dx_e(x));
 
+loglog(h,err(x,h,df_dx_FW),...
+    h,err(x,h,df_dx_BW),'--',...
+    h,err(x,h,df_dx_C),'-.','LineWidth',2)
+grid on
+xlabel('h');
+ylabel('relative error')
+legend('FW','BW','C','Location','best')
+fontsize(14,'points')
+
+% roundoff error proportional to eps/h
+% truncation error proportional to:
+% h (first-order methods)
+% h^2 (second-order methods)
+
+% With CD, the value of h for which truncation error
+% is comparable to roundoff error is much larger than
+% for first-order methods
+
+% Plot err for FWD and eps/h, h
+figure
+loglog(h,err(x,h,df_dx_FW),h,eps./h,'--',h,h,'--','LineWidth',2)
+legend('err FW','theoretical roundoff','theoretical truncation');
+ylim([1E-10 inf]);
+
+% Try to do the same for CD
+% theoretical roundoff error: eps/h
+% theoretical truncation error: h^2
 
