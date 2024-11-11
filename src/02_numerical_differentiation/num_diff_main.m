@@ -71,13 +71,28 @@ fontsize(14,'points')
 % is comparable to roundoff error is much larger than
 % for first-order methods
 
-% Plot err for FWD and eps/h, h
-figure
-loglog(h,err(x,h,df_dx_FW),h,eps./h,'--',h,h,'--','LineWidth',2)
-legend('err FW','theoretical roundoff','theoretical truncation');
-ylim([1E-10 inf]);
+%% Plot err for FWD and eps/h, h
+close all
 
-% Try to do the same for CD
-% theoretical roundoff error: eps/h
-% theoretical truncation error: h^2
+x = 1; % point for evaluation of derivative
+
+tiledlayout(2,1)
+
+nexttile
+loglog(h,err(x,h,df_dx_FW),h,x*eps./h,'--',h,h/x,'--','LineWidth',2)
+legend('err FW','x*eps./(h)','truncation O(h)');
+ylim([1E-12 inf]);
+
+% The same for CD
+% theoretical roundoff error: ∝(eps/h)
+% theoretical truncation error: ∝(h^2)
+nexttile
+loglog(h,err(x,h,df_dx_C),h,x*eps./h,'--',h,x*eps./(2*h),'.-',h,(h/x).^2,'--','LineWidth',2)
+legend('err FW','eps./(h)','eps./(2*h)','truncation O(h^2)');
+ylim([1E-12 inf]);
+
+% now try x = 1000;
+% ...important to scale 
+% roundoff: eps/h -> x*eps/h    (proportional to the relative scale of x in floating-point arithmetic)
+% truncation (2nd order): h.^2 -> (h/x).^2 ()
 
