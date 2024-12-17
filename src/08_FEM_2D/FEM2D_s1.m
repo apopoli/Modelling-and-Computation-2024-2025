@@ -27,10 +27,10 @@ for i=1:nel
     K_el = p * (gradL'*gradL) * Area; % gradL is constant on the element!
     % rhs as shape function sampled at three nodes times t, assumed uniform
     % 1/3*t_i + 1/3*t_j + 1/3*t_k
-    rhs_el = ones(1,3) * t * Area/3;  
+    rhs_el = ones(3,1) * t * Area/3;  
 
     K(i_vertices,i_vertices) = K(i_vertices,i_vertices) + K_el;
-    rhs(i_vertices) = rhs(i_vertices) + rhs_el';
+    rhs(i_vertices) = rhs(i_vertices) + rhs_el;
 end
 
 % Boundary conditions
