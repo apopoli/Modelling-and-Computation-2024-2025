@@ -50,6 +50,8 @@ for i=1:size(nodal_BC,1)
     switch (nodal_BC(i,2)) % type of BC
         case (1) % Neumann
             % nothing to do
+            % if dphi/dn different from 0
+            % TO BE IMPLEMENTED (see 1D implementation)
         case (2) % Dirichlet
             K(i_node,:) = 0;
             K(i_node,i_node) = 1;
