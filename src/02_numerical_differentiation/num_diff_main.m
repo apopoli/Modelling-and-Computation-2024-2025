@@ -74,8 +74,6 @@ fontsize(14,'points')
 %% Plot err for FWD and eps/h, h
 close all
 
-x = 1; % point for evaluation of derivative
-
 tiledlayout(2,1)
 
 nexttile
@@ -88,7 +86,7 @@ ylim([1E-12 inf]);
 % theoretical truncation error: ∝(h^2)
 nexttile
 loglog(h,err(x,h,df_dx_C),h,x*eps./h,'--',h,x*eps./(2*h),'.-',h,(h/x).^2,'--','LineWidth',2)
-legend('err FW','eps./(h)','eps./(2*h)','truncation O(h^2)');
+legend('err CD','eps./(h)','eps./(2*h)','truncation O(h^2)');
 ylim([1E-12 inf]);
 
 % now try x = 1000;
@@ -96,3 +94,20 @@ ylim([1E-12 inf]);
 % roundoff: eps/h -> x*eps/h    (proportional to the relative scale of x in floating-point arithmetic)
 % truncation (2nd order): h.^2 -> (h/x).^2 ()
 
+%% A more rigorous approach for larger values of x
+% see handwritten notes sent to D. Ramaschi
+close all
+
+ddf_ddx_e = @(x) 24*x.^2 + 18*x + 2;
+
+x = 100;
+
+err_rel_round = f(x).*eps/df_dx_e(x)./h;
+err_rel_trunc = 1/2*ddf_ddx_e(x)./df_dx_e(x).*h;
+
+loglog(h,err(x,h,df_dx_FW),...
+    h,err_rel_round,'--',...
+    h,err_rel_trunc,'--','LineWidth',2)
+
+legend('err FW','roundoff','truncation O(h)');
+ylim([1E-12 inf]);
