@@ -95,7 +95,7 @@ ylim([1E-12 inf]);
 % truncation (2nd order): h.^2 -> (h/x).^2 ()
 
 %% A more rigorous approach for larger values of x
-% see handwritten notes sent to D. Ramaschi
+% see handwritten notes
 close all
 
 ddf_ddx_e = @(x) 24*x.^2 + 18*x + 2;
